@@ -1,76 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>Something Special 💕</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleek Puzzles | 1000 Piece Jigsaw</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="1000 Piece Jigsaw Puzzle">
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
-    <div class="container">
-
-        <div id="landing">
-            <h1>Hi Pookie 💘</h1>
-            <p>Small extra puzzle for you <3.<br>I love you 😉</p>
-            <button onclick="startQuiz()">Start</button>
+    <header id="ui-header">
+        <div class="logo">PuzzleVault</div>
+        <div class="controls">
+            <span class="info-text">🧩 1000 Pieces</span>
+            <button class="action-btn" id="previewBtn">Preview Image</button>
         </div>
+    </header>
 
-        <div id="quiz" class="hidden">
-            <h2 id="title"></h2>
+    <canvas id="puzzle-canvas"></canvas>
 
-            <div id="mcq" class="hidden">
-                <p id="mcq-question"></p>
-                <div id="options"></div>
-            </div>
-
-            <div id="cryptic" class="hidden">
-                <p id="cryptic-clue"></p>
-                <p id="enumeration"></p>
-                <input id="cryptic-input" type="text" placeholder="Your answer">
-                <button id="submitCryptic">Submit</button>
-                <button id="hintBtn">Hints</button>
-            </div>
+    <!-- Overlay Loading / Settings -->
+    <div id="loading-overlay">
+        <div class="glass-panel">
+            <h1>Preparing 1000 Pieces...</h1>
+            <p>Slicing image and calculating beziers.</p>
+            <div class="spinner"></div>
         </div>
-
-        <div id="final-challenge" class="hidden">
-            <h2>You've collected all the clues... 🧩</h2>
-            <p>Now, type the full question to unlock the next step.</p>
-            <input id="final-input" type="text" placeholder="Type the question here...">
-            <button id="submitFinal">Unlock ❤️</button>
-        </div>
-
-        <div id="hintModal" class="hidden">
-            <div class="hintContent">
-                <span id="closeHint">&times;</span>
-                <p><span class="hintOption" data-type="indicator">show indicators</span></p>
-                <p><span class="hintOption" data-type="fodder">show fodder</span></p>
-                <p><span class="hintOption" data-type="definition">show definition</span></p>
-                <p><span class="hintOption" data-type="letter">show letter</span></p>
-            </div>
-        </div>
-
-        <div id="valentine" class="hidden">
-            <h2>Will you be my Valentine? 💖</h2>
-            <button id="yes">Yes 💕</button>
-            <button id="no">No 😐</button>
-        </div>
-
-        <div id="success" class="hidden">
-            <h2>You made me the happiest 💘</h2>
-            <img src="meow.jpg" alt="Success">
-            <p>Happy Valentine’s Mi Amor 💞</p>
-        </div>
-
     </div>
 
-    <audio id="bg-music" loop>
-        <source src="love.mp3" type="audio/mpeg">
-    </audio>
+    <!-- Preview Image Modal -->
+    <div id="preview-modal" class="hidden">
+        <div class="glass-panel preview-panel">
+            <span class="close-btn" id="closePreview">&times;</span>
+            <img src="LUNALEIA.jpeg" alt="LUNALEIA Target image">
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
-
 </html>
