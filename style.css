@@ -70,6 +70,30 @@ body {
     box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
 }
 
+.cta-btn {
+    background: linear-gradient(135deg, #10b981, #3b82f6);
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+    animation: pulseGlow 2s infinite;
+}
+
+.cta-btn:hover {
+    box-shadow: 0 0 25px rgba(16, 185, 129, 0.8);
+}
+
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 10px rgba(16, 185, 129, 0.4); }
+    50% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.7); transform: scale(1.02); }
+    100% { box-shadow: 0 0 10px rgba(16, 185, 129, 0.4); }
+}
+
+#undoBtn {
+    background: linear-gradient(135deg, #f43f5e, #e11d48);
+}
+
+#undoBtn:hover {
+    box-shadow: 0 0 15px rgba(244, 63, 94, 0.4);
+}
+
 /* Canvas */
 #puzzle-canvas {
     width: 100%;

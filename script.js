@@ -15,6 +15,93 @@ resizeCanvas();
 document.getElementById('previewBtn').addEventListener('click', () => previewModal.classList.remove('hidden'));
 document.getElementById('closePreview').addEventListener('click', () => previewModal.classList.add('hidden'));
 
+let helpHistory = [];
+const helpBtn = document.getElementById('helpBtn');
+const undoBtn = document.getElementById('undoBtn');
+
+helpBtn.addEventListener('click', () => {
+    // Identify up to 100 pieces strictly outside the board area
+    let piecesOutside = pieces.filter(p => {
+        let insideX = p.x >= 0 && p.x <= image.width;
+        let insideY = p.y >= 0 && p.y <= image.height;
+        return !(insideX && insideY);
+    });
+
+    // Shuffle to select random pieces across the whole image
+    for (let i = piecesOutside.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [piecesOutside[i], piecesOutside[j]] = [piecesOutside[j], piecesOutside[i]];
+    }
+
+    piecesOutside = piecesOutside.slice(0, 100);
+    if(piecesOutside.length === 0) return;
+
+    // Capture state to undo
+    let state = piecesOutside.map(p => {
+        return {
+            piece: p,
+            oldX: p.x,
+            oldY: p.y,
+            oldGroup: p.group
+        };
+    });
+    helpHistory.push(state);
+    undoBtn.classList.remove('hidden');
+
+    let solvedGroup = {
+        id: 'help_' + Date.now(),
+        x: 0,
+        y: 0,
+        pieces: []
+    };
+    groups.push(solvedGroup);
+
+    piecesOutside.forEach(p => {
+        // Remove from old group
+        const gIdx = p.group.pieces.indexOf(p);
+        if(gIdx > -1) p.group.pieces.splice(gIdx, 1);
+
+        let perfectX = p.c * pieceWidth;
+        let perfectY = p.r * pieceHeight;
+
+        p.x = perfectX;
+        p.y = perfectY;
+        p.group = solvedGroup;
+        p.offsetX = perfectX;
+        p.offsetY = perfectY;
+        solvedGroup.pieces.push(p);
+    });
+    
+    // Bring solved pieces front visually
+    pieces = pieces.filter(piece => !solvedGroup.pieces.includes(piece));
+    pieces.push(...solvedGroup.pieces);
+});
+
+undoBtn.addEventListener('click', () => {
+    const lastState = helpHistory.pop();
+    if(!lastState) return;
+    
+    lastState.forEach(item => {
+        let currentGroup = item.piece.group;
+        let gIdx = currentGroup.pieces.indexOf(item.piece);
+        if(gIdx > -1) currentGroup.pieces.splice(gIdx, 1);
+
+        item.piece.x = item.oldX;
+        item.piece.y = item.oldY;
+        item.piece.group = item.oldGroup;
+        item.piece.offsetX = item.piece.x - item.oldGroup.x;
+        item.piece.offsetY = item.piece.y - item.oldGroup.y;
+        
+        if(!item.oldGroup.pieces.includes(item.piece)) {
+            item.oldGroup.pieces.push(item.piece);
+        }
+    });
+
+    if(helpHistory.length === 0) {
+        undoBtn.classList.add('hidden');
+    }
+});
+
 // --- PUZZLE LOGIC ---
 
 // Configuration for roughly 1000 pieces
